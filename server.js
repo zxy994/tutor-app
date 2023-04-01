@@ -2,9 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
 const app = express();
-const path = require('path');
-
-app.use(express.static('dist'));
 
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }))
