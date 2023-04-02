@@ -2,6 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
 const app = express();
+require('dotenv').config();
+const port = process.env.PORT || 5000;
+const mime = require('mime');
+
+// Set content type for files
+mime.define({
+    'text/javascript': ['js']
+});
+
+app.use(express.static('./public'));
+
 
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }))
@@ -13,9 +24,14 @@ app.use(express.json())
 app.use('/api/user', userRoutes);
 
 
-app.get('/', (req, res) => {
-    res.send('ok')
+app.get('/*', (req, res) => {
+    res.sendFile(__dirname + '/dist/bundle.js', (err) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+    });
 })
+
 
 
 //connect to database
@@ -35,6 +51,6 @@ async function connectDB() {
 connectDB().catch(console.error);
 
 // Start the server
-app.listen(3000, () => {
-    console.log('Server started on port 3000');
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
 });
