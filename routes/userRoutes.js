@@ -1,4 +1,4 @@
-const { registerUser, authenticateUser } = require('../service/services');
+const { registerUser, authenticateUser, verifyToken } = require('../service/services');
 const express = require('express')
 const app = express();
 
@@ -14,6 +14,12 @@ app.post('/login', async (req, res) => {
 
     // Callback function logic here
     authenticateUser(req, res);
+})
+
+// Route to dashboard
+app.get('/login/d/*', async (req, res) => {
+
+    verifyToken(req, res)
 })
 
 module.exports = app;

@@ -13,7 +13,6 @@ mime.define({
 
 app.use(express.static('./public'));
 
-
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }))
 

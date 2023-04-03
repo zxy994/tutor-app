@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
 
 const Login = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
@@ -14,13 +19,36 @@ const Login = () => {
         setPassword(event.target.value);
     };
 
+    const requestBody = {
+        email: email,
+        password: password
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!email || !password) {
             setErrorMsg('Please enter a valid email and password');
         } else {
-            console.log('Email:', email);
-            console.log('Password:', password);
+            axios.post('http://localhost:5000/api/user/login', JSON.stringify(requestBody), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => {
+                    const token = res.data;
+                    // Redirect to previous location or dashboard on successful login
+                    if (location.state && location.state.from) {
+                        navigate(location.state.from, { replace: true });
+                    } else {
+                        navigate(`/api/user/login/d/:${token}`, { replace: true });
+                    }
+
+
+                })
+                .catch(err => {
+                    // Handle the error
+                });
+            console.log('login successful');
         }
     };
 

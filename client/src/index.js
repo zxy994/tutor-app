@@ -1,22 +1,10 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-
-// const App = () => {
-//     return (
-//         <div>
-//             <h1>Hello, World!</h1>
-//         </div>
-//     );
-// };
-
-// ReactDOM.render(<App />, document.getElementById('root'));
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './home';
 import Register from './register';
 import Login from './login';
-import ReactDOM from 'react-dom'
+import Dashboard from './dashboard';
+import { createRoot } from 'react-dom/client';
 
 const App = () => {
     return (
@@ -24,11 +12,12 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />,
                 <Route path="/register" element={<Register />} />,
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<Login />} />,
+                <Route path="/api/user/login/d/:token" element={<Dashboard />} />
             </Routes>
         </Router>
 
     );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+createRoot(document.getElementById('root')).render(<App />);

@@ -24,7 +24,8 @@ async function registerUser(req, res) {
 
     try {
         const savedUser = await user.save();
-        res.send(savedUser);
+        //res.send(savedUser);
+        res.send('User Registered!');
     } catch (err) {
         res.status(400).send(err);
     }
@@ -48,4 +49,23 @@ async function authenticateUser(req, res) {
     res.header('auth-token', token).send(token);
 };
 
-module.exports = { registerUser, authenticateUser }
+
+const verifyToken = async (req, res, next) => {
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({
+            message: 'Authentication failed'
+        })
+
+    }
+
+    const tokenWithoutColon = authHeader.replace(':', '');
+    const decoded = jwt.verify(tokenWithoutColon, process.env.TOKEN_SECRET);
+    console.log('Its decoded: ', decoded);
+    return res.status(200).json({
+        message: 'Verified'
+    })
+};
+
+module.exports = { registerUser, authenticateUser, verifyToken }
