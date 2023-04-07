@@ -40,7 +40,7 @@ const Login = () => {
                     if (location.state && location.state.from) {
                         navigate(location.state.from, { replace: true });
                     } else {
-                        navigate(`/api/user/login/d/:${token}`, { replace: true });
+                        navigate(`/api/user/login/d/${token}/dashboard`, { replace: true });
                     }
 
 

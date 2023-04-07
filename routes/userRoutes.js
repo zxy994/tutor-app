@@ -1,4 +1,4 @@
-const { registerUser, authenticateUser, verifyToken } = require('../service/services');
+const { registerUser, authenticateUser, displayProfile, createProfile } = require('../service/services');
 const express = require('express')
 const app = express();
 
@@ -9,6 +9,7 @@ app.post('/register', async (req, res) => {
     registerUser(req, res);
 })
 
+
 // Route for user login
 app.post('/login', async (req, res) => {
 
@@ -16,10 +17,18 @@ app.post('/login', async (req, res) => {
     authenticateUser(req, res);
 })
 
-// Route to dashboard
-app.get('/login/d/*', async (req, res) => {
 
-    verifyToken(req, res)
+//Route to create/update profile
+app.post('/login/d/:token/profile/create', async (req, res) => {
+    //const userid = verifyToken(req, res)
+    createProfile(req, res);
 })
+
+
+//Route to display profile
+app.get('/login/d/:token/disProfile/p', async (req, res) => {
+    displayProfile(req, res);
+})
+
 
 module.exports = app;

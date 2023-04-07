@@ -1,31 +1,43 @@
-import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const Dashboard = () => {
-    const { token } = useParams();
-    const [profile, setProfile] = useState(null);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const handleSubmit = (event) => {
-        axios.get('http://localhost:5000/api/user/login/d/in', {
-            headers: { 'Authorization': `${token}` },
-        })
-            .then((res) => {
-                console.log(res.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+    const { token } = useParams();
+
+    const handleCreateProfileButton = (event) => {
+        navigate(`/api/user/login/d/${token}/profile`, { replace: true });
     };
+
+
+    const handleUpdateProfileButton = (event) => {
+        navigate(`/api/user/login/d/${token}/profile`, { replace: true });
+    }
+
+
+    const handleDisplayProfileButton = (event) => {
+        navigate(`/api/user/login/d/${token}/disProfile`, { replace: true });
+    };
+
+
+    const handleLogout = (event) => {
+        window.open('/', '_self');
+    };
+
 
     return (
         <div>
 
-            <button onClick={handleSubmit}>Logout</button>
-            <p><Link to="/">Home</Link></p >
-
+            <button onClick={handleCreateProfileButton}>Create Profile</button>
+            <button onClick={handleUpdateProfileButton}>Update Profile</button>
+            <button onClick={handleDisplayProfileButton}>Display Profile</button>
+            <p><button onClick={handleLogout}>Logout</button></p>
         </div>
     )
+
 }
 
 export default Dashboard;
